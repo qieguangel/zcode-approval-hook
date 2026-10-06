@@ -1,0 +1,40 @@
+{
+  "_说明": "复制为 approval-config.json 后使用。切换审批模型：把 active 改成 providers 里任一 id 即可（改完重启 ZCode）。key 解析顺序：环境变量(apiKeyEnv) > keys.local.json > ZCode 自身 provider 配置(按 baseURL 的 host 自动匹配；想强制手填就给该 provider 加 \"keySource\": \"manual\")。model 写 \"auto\" 表示从 ZCode 该服务商的模型列表自动挑 flash 档。",
+  "active": "example-flash",
+  "providers": {
+    "example-flash": {
+      "label": "示例：任意 OpenAI 兼容端点（把 baseURL/model/key 换成你的）",
+      "baseURL": "https://api.example.com/v1",
+      "model": "some-fast-flash-model",
+      "apiKeyEnv": "MY_APPROVAL_API_KEY",
+      "extraHeaders": {},
+      "extraBody": {}
+    },
+    "opencodego-flash": {
+      "label": "OpenCode Go（若你已在其客户端里登录，key 会自动发现；注意它要求 x-opencode-session 头）",
+      "baseURL": "https://opencode.ai/zen/go/v1",
+      "model": "deepseek-v4-flash",
+      "apiKeyEnv": "OPENCODE_GO_API_KEY",
+      "extraHeaders": { "x-opencode-session": "zcode-approval-hook" },
+      "extraBody": {}
+    },
+    "bigmodel-flash": {
+      "label": "智谱 bigmodel 免费 flash 档（思考已禁用提速；报参数错就删掉 extraBody）",
+      "baseURL": "https://open.bigmodel.cn/api/paas/v4",
+      "model": "glm-5.3-flash",
+      "apiKeyEnv": "ZHIPUAI_API_KEY",
+      "extraBody": { "thinking": { "type": "disabled" } }
+    }
+  },
+  "policy": {
+    "maxInputChars": 2000,
+    "maxTokens": 8192,
+    "apiTimeoutMs": 10000,
+    "maxRetries": 1,
+    "bashWhitelist": [
+      "git status", "git log", "git diff", "git show", "git branch", "git remote -v",
+      "git --version", "ls", "dir", "pwd", "cd", "cat", "head", "tail", "wc",
+      "node --version", "node -v", "npm --version", "npm ls"
+    ]
+  }
+}

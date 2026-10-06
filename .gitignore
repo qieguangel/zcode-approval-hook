@@ -1,0 +1,9 @@
+# 本地 key 与运行日志——绝不提交
+hook/keys.local.json
+hook/approval-config.json
+hook/approval-log.txt
+hook/hook-events.log
+*.log
+
+# Node
+node_modules/
